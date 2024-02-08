@@ -5,6 +5,8 @@ import {
   rule,
   type Rule,
   makeHelmMessage,
+  flag,
+  isBooleanAt,
 } from "@jondotsoy/flags";
 import * as subcommands from "./subcommands";
 
@@ -13,9 +15,13 @@ const main = async (args: string[]) => {
     build: string[];
     list: string[];
     init: string[];
+    showHelp: boolean;
   };
 
   const rules: Rule<Options>[] = [
+    rule(flag("--help", "-h"), isBooleanAt("showHelp"), {
+      description: "Show help to envctl",
+    }),
     rule(command("use"), restArgumentsAt("build"), {
       description: "Build the env file. Example: envctl use <context>",
     }),
@@ -31,6 +37,8 @@ const main = async (args: string[]) => {
     makeHelmMessage("envctl", rules, ["build --ctx=<ctx>"]);
 
   const options = flags<Options>(args, {}, rules);
+
+  if (options.showHelp) return console.error(makeHelp());
 
   for (const [subcommand, handler] of Object.entries(subcommands)) {
     if (Reflect.has(options, subcommand)) {
