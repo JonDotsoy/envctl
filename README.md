@@ -16,4 +16,3 @@
 ```
 
 3. Now run the next command `envctl build --ctx <source_name>` to write the final `.env` file and enjoy.
-

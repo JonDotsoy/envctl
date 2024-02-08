@@ -1,10 +1,12 @@
 PWD = `pwd`
 
+all: uninstall build install
+
 build:
 	bun build ./src/cli.ts --compile --outfile=./dist/envctl
 
 uninstall:
-	rm ~/.bin/envctl
+	unlink ~/.bin/envctl
 
 install: build
 	ln -s ${PWD}/dist/envctl ~/.bin/envctl
