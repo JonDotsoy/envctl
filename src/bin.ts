@@ -1,12 +1,16 @@
-import { cli } from "./cli"
-import { catchToMessages, globalMessages, messageToObject } from "./utils/streaming"
+import { cli } from "./cli";
+import {
+  catchToMessages,
+  globalMessages,
+  messageToObject,
+} from "./utils/streaming";
 
-const args = process.argv.slice(2)
+const args = process.argv.slice(2);
 
 globalMessages.subscribe((message) => {
-  const { type, value } = messageToObject(message)
-  if (type === 'LOG') process.stdout.write(value)
-  else process.stderr.write(value)
-})
+  const { type, value } = messageToObject(message);
+  if (type === "LOG") process.stdout.write(value);
+  else process.stderr.write(value);
+});
 
-await catchToMessages(() => cli(args))
+await catchToMessages(() => cli(args));
