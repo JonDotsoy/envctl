@@ -1,3 +1,4 @@
+import path from "path";
 import { cwd } from "process";
 import { pathToFileURL } from "url";
 import { parse } from "dotenv";
@@ -15,8 +16,12 @@ import {
   isBooleanAt,
 } from "@jondotsoy/flags";
 import chalk from "chalk";
+import { useMessages, type Message, type Streaming } from "../utils/streaming";
+import { Envctl } from "../envctl";
 
 export const list = async (args: string[]) => {
+  const controller = await useMessages();
+
   type Options = {
     formatJson: boolean;
   };
@@ -27,31 +32,32 @@ export const list = async (args: string[]) => {
   ];
   const options = flags<Options>(args, {}, rules);
 
-  const glob = new Bun.Glob(".env.*");
-  const paths = (
-    await Array.fromAsync(
-      glob.scan({ cwd: process.cwd(), dot: true, onlyFiles: true }),
-    )
-  )
-    .filter((e) => e !== `.env.template`)
-    .map((e) => ({ context: e.substring(".env.".length) }));
+  const workspaceLocation = pathToFileURL(`${cwd()}/`);
+  const envs = await Array.fromAsync(
+    new Envctl({ workspace: workspaceLocation }).findEnvs(),
+  );
 
-  if (paths.length === 0) {
-    return console.error(
+  if (envs.length === 0) {
+    throw new Error(
       `No contexts found. You can create one by making a ${chalk.green(".env.<ctx>")} file and adding desired variables.`,
     );
   }
 
-  if (options.formatJson) return console.log(JSON.stringify(paths, null, 2));
+  if (options.formatJson) return controller.send(JSON.stringify(envs, null, 2));
 
-  for (const path of paths) {
-    console.log(`- ${chalk.blue(path.context)}`);
+  const relativePath = (location: URL) => {
+    return path.relative(workspaceLocation.pathname, location.pathname);
+  };
+
+  for (const path of envs) {
+    controller.send(
+      `- ${Envctl.getNameEnvFromLocation(path)} ${chalk.blue(`(${relativePath(path)})`)}\n`,
+    );
   }
-
-  return;
 };
 
 export const init = async (args: string[]) => {
+  const controller = await useMessages();
   type Options = {};
   const rules: Rule<Options>[] = [];
   const options = flags<Options>(args, {}, rules);
@@ -59,23 +65,24 @@ export const init = async (args: string[]) => {
   const templateLocation = new URL(`.env.template`, pathToFileURL(`${cwd()}/`));
 
   if (await exists(templateLocation)) {
-    console.log(chalk.cyan(`# Already created .env.template file`));
+    controller.send(chalk.cyan(`# Already created .env.template file`));
   } else {
-    console.log(chalk.cyan(`# Wrote ${templateLocation} file`));
+    controller.send(chalk.cyan(`# Wrote ${templateLocation} file`));
     await writeFile(templateLocation, "");
   }
 
-  console.log(``);
-  console.log(
+  controller.send(``);
+  controller.send(
     `Congratulations on successfully initializing your project with the ${chalk.green(`envctl init`)} command! 🎉`,
   );
-  console.log(``);
-  console.log(
+  controller.send(``);
+  controller.send(
     `Now, you'll find the ${chalk.blue(`.env.template`)} file ready to be used for generating ${chalk.blue(".env")} with ${chalk.green("envctl build --ctx=<ctx>")}. Explore contexts using ${chalk.green("envctl list")}. Happy coding! 🚀`,
   );
 };
 
 export const build = async (args: string[]) => {
+  const messages = await useMessages();
   type Options = {
     _: string;
   };
@@ -84,25 +91,39 @@ export const build = async (args: string[]) => {
   const makeHelp = () => makeHelmMessage("envctl", rules, ["use <context>"]);
 
   const { _ } = flags<Options>(args, {}, rules);
-  const context = _?.at(0);
+  const contextName = _?.at(0);
 
-  if (!context) {
-    console.error(`Missing context`);
-    console.error(``);
-    console.error(makeHelp());
+  if (!contextName) {
+    messages.send(`Missing context`);
+    messages.send(``);
+    messages.send(makeHelp());
     return;
   }
 
-  const envSource = new URL(`${context}`, pathToFileURL(`${cwd()}/`));
-  const envTemplate = new URL(".env.template", pathToFileURL(`${cwd()}/`));
-  const envDestiny = new URL(".env", pathToFileURL(`${cwd()}/`));
+  const workspaceLocation = pathToFileURL(`${cwd()}/`);
+  const envSource = await Envctl.findEnvLocation(
+    workspaceLocation,
+    contextName,
+  );
+  const envTemplate = new URL(".env.template", workspaceLocation);
+  const envDestiny = new URL(".env", workspaceLocation);
 
-  const envSourceParsed = parse(await readFile(envSource));
-  const envTemplateParsed = new TextDecoder()
-    .decode(await readFile(envTemplate))
-    .replace(/^((?:\w|_)*)=(.*)/gm, (_: string, varName: string) => {
-      return `${varName}=${envSourceParsed[varName] ?? ""}`;
-    });
+  if (!envSource) throw new Error(`Missing context ${contextName}.`);
 
-  await writeFile(envDestiny, new TextEncoder().encode(envTemplateParsed));
+  const envctl = new Envctl({
+    workspace: workspaceLocation,
+    template: envTemplate,
+    envDestination: envDestiny,
+  });
+
+  await envctl.switchEnv(envSource);
+
+  const relativePath = (location: URL) => {
+    return path.relative(workspaceLocation.pathname, location.pathname);
+  };
+
+  messages.send({
+    type: "INFO",
+    value: `Created env by ${relativePath(envSource)} file`,
+  });
 };

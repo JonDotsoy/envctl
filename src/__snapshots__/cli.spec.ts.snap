@@ -1,0 +1,37 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`run cli 1`] = `
+"Usage: envctl use <ctx>
+
+flag:
+    --help,      Show help to envctl
+    -h
+
+command:
+    use    Build the env file. Example: envctl use <context>
+    list   List environment available
+    init   Init the template file
+"
+`;
+
+exports[`run use local env (using full path) 1`] = `"Created env by .env.local file"`;
+exports[`run use local env (using full path) 2`] = `"FOO=biz"`;
+
+exports[`run use local env (using partial path) 1`] = `"Created env by .env.local file"`;
+exports[`run use local env (using partial path) 2`] = `"FOO=biz"`;
+
+exports[`run use local env (using subpath location) 1`] = `"Created env by .envs/local.env file"`;
+exports[`run use local env (using subpath location) 2`] = `"FOO=biz"`;
+
+exports[`run use local env (using subpath relative location) 1`] = `"Created env by .envs/local.env file"`;
+exports[`run use local env (using subpath relative location) 2`] = `"FOO=biz"`;
+
+exports[`should call to envctl list and display all envs files found 1`] = `
+"- aaa (.env.aaa)
+- bbb (.bbb.env)
+- ddd (.envs/.ddd)
+- cc (.envs/ccc)
+- fff (.envs/.fff.env)
+- eee (.envs/eee.env)
+"
+`;

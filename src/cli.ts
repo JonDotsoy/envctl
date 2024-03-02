@@ -10,7 +10,7 @@ import {
 } from "@jondotsoy/flags";
 import * as subcommands from "./subcommands";
 
-const main = async (args: string[]) => {
+export const cli = async (args: string[]) => {
   type Options = {
     build: string[];
     list: string[];
@@ -33,25 +33,22 @@ const main = async (args: string[]) => {
     }),
   ];
 
-  const makeHelp = () =>
-    makeHelmMessage("envctl", rules, ["build --ctx=<ctx>"]);
+  const makeHelp = () => makeHelmMessage("envctl", rules, ["use <ctx>"]);
 
   const options = flags<Options>(args, {}, rules);
 
-  if (options.showHelp) return console.error(makeHelp());
+  if (options.showHelp) throw new Error(makeHelp());
 
   for (const [subcommand, handler] of Object.entries(subcommands)) {
     if (Reflect.has(options, subcommand)) {
-      return handler(Reflect.get(options, subcommand));
+      try {
+        await handler(Reflect.get(options, subcommand));
+        return;
+      } catch (ex) {
+        throw ex;
+      }
     }
   }
 
-  return console.error(makeHelp());
+  throw new Error(makeHelp());
 };
-
-await main(process.argv.slice(2)).catch((ex) => {
-  if (ex instanceof Error) {
-    return console.error(ex.message);
-  }
-  throw ex;
-});
