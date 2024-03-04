@@ -42,7 +42,7 @@ export const list = async (args: string[]) => {
   if (envs.length === 0) {
     controller.send({
       type: "ERROR",
-      value: `No contexts found. You can create one by making a ${chalk.green(".env.<ctx>")} file and adding desired variables.`,
+      value: `No contexts found. You can create one by making a ${chalk.green(".env.<ctx>")} file and adding desired variables.\n`,
     });
   }
 
@@ -68,19 +68,19 @@ export const init = async (args: string[]) => {
   const templateLocation = new URL(`.env.template`, pathToFileURL(`${cwd()}/`));
 
   if (await exists(templateLocation)) {
-    controller.send(chalk.cyan(`# Already created .env.template file`));
+    controller.send(chalk.cyan(`# Already created .env.template file\n`));
   } else {
-    controller.send(chalk.cyan(`# Wrote ${templateLocation} file`));
+    controller.send(chalk.cyan(`# Wrote ${templateLocation} file\n`));
     await writeFile(templateLocation, "");
   }
 
   controller.send(``);
   controller.send(
-    `Congratulations on successfully initializing your project with the ${chalk.green(`envctl init`)} command! 🎉`,
+    `Congratulations on successfully initializing your project with the ${chalk.green(`envctl init`)} command! 🎉\n`,
   );
   controller.send(``);
   controller.send(
-    `Now, you'll find the ${chalk.blue(`.env.template`)} file ready to be used for generating ${chalk.blue(".env")} with ${chalk.green("envctl build --ctx=<ctx>")}. Explore contexts using ${chalk.green("envctl list")}. Happy coding! 🚀`,
+    `Now, you'll find the ${chalk.blue(`.env.template`)} file ready to be used for generating ${chalk.blue(".env")} with ${chalk.green("envctl build --ctx=<ctx>")}. Explore contexts using ${chalk.green("envctl list")}. Happy coding! 🚀\n`,
   );
 };
 
@@ -97,9 +97,10 @@ export const build = async (args: string[]) => {
   const contextName = _?.at(0);
 
   if (!contextName) {
-    messages.send(`Missing context`);
+    messages.send(`Missing context\n`);
     messages.send(``);
     messages.send(makeHelp());
+    messages.send(`\n`);
     return;
   }
 
@@ -143,6 +144,6 @@ export const build = async (args: string[]) => {
 
   messages.send({
     type: "INFO",
-    value: `Created env by ${relativePath(envSource)} file`,
+    value: `Created env by ${relativePath(envSource)} file\n`,
   });
 };

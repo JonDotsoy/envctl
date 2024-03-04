@@ -8,7 +8,7 @@ export const version = async (args: string[]) => {
   };
 
   const options = flags<Options>(args, {}, [
-    rule(flag("--json", "-j"), isBooleanAt("outputJson")),
+    rule(flag("--json", "-j"), isBooleanAt("outputJson"), {}),
   ]);
 
   const messages = await useMessages();
@@ -22,5 +22,5 @@ export const version = async (args: string[]) => {
       }),
     );
 
-  messages.send(`Version v${pkg.version}`);
+  messages.send(`Version v${pkg.version}\n`);
 };
