@@ -103,14 +103,14 @@ export const build = async (args: string[]) => {
 
   const choiceFileIfExists = async (locations: URL[]) => {
     for (const location of locations) {
-      const existFile = await exists(location)
-      if (!existFile) continue
-      const statFile = await stat(location)
-      if (!statFile.isFile()) continue
-      return location
+      const existFile = await exists(location);
+      if (!existFile) continue;
+      const statFile = await stat(location);
+      if (!statFile.isFile()) continue;
+      return location;
     }
-    return undefined
-  }
+    return undefined;
+  };
 
   const workspaceLocation = pathToFileURL(`${cwd()}/`);
   const envSource = await Envctl.findEnvLocation(
