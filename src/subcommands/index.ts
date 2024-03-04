@@ -19,6 +19,8 @@ import chalk from "chalk";
 import { useMessages, type Message, type Streaming } from "../utils/streaming";
 import { Envctl } from "../envctl";
 
+export { version } from "./version";
+
 export const list = async (args: string[]) => {
   const controller = await useMessages();
 

@@ -14,6 +14,7 @@ export const cli = async (args: string[]) => {
   type Options = {
     build: string[];
     list: string[];
+    version: string[];
     init: string[];
     showHelp: boolean;
   };
@@ -27,6 +28,9 @@ export const cli = async (args: string[]) => {
     }),
     rule(command("list"), restArgumentsAt("list"), {
       description: "List environment available",
+    }),
+    rule(command("version"), restArgumentsAt("version"), {
+      description: "Show version enabled",
     }),
     rule(command("init"), restArgumentsAt("init"), {
       description: "Init the template file",
