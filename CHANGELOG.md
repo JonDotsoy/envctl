@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/JonDotsoy/envctl/compare/v1.1.0...v1.2.0) (2024-03-04)
+
+
+### Features
+
+* **cli:** add version command to display application version ([635bcee](https://github.com/JonDotsoy/envctl/commit/635bcee98bce42a8ba62391013aafcb45e8573f8))
+* **utils:** Add `getPackageJson` utility function ([1183b8b](https://github.com/JonDotsoy/envctl/commit/1183b8ba185c4f4499fc749bde9c7a27749e9a58))
+
 ## [1.1.0](https://github.com/JonDotsoy/envctl/compare/v1.0.1...v1.1.0) (2024-03-04)
 
 
