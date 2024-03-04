@@ -2,6 +2,12 @@
 
 To manager many env files.
 
+## Install with brew
+
+```shell
+brew install jondotsoy/core/envctl
+```
+
 ## Guide
 
 1. Make your sources write many `.envs/<source_name>` files.
