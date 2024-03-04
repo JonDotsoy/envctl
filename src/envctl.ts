@@ -38,7 +38,7 @@ export class Envctl {
       absolute: true,
     };
 
-    yield* new Glob(".env.template").scan(scanOptions);
+    yield* new Glob(".env.{template,sample}").scan(scanOptions);
     yield* new Glob(".envs/template").scan(scanOptions);
   }
 
