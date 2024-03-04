@@ -2,7 +2,7 @@ import path from "path";
 import { cwd } from "process";
 import { pathToFileURL } from "url";
 import { parse } from "dotenv";
-import { readFile, writeFile, exists } from "fs/promises";
+import { readFile, writeFile, exists, stat } from "fs/promises";
 import {
   flags,
   command,
@@ -101,12 +101,27 @@ export const build = async (args: string[]) => {
     return;
   }
 
+  const choiceFileIfExists = async (locations: URL[]) => {
+    for (const location of locations) {
+      const existFile = await exists(location)
+      if (!existFile) continue
+      const statFile = await stat(location)
+      if (!statFile.isFile()) continue
+      return location
+    }
+    return undefined
+  }
+
   const workspaceLocation = pathToFileURL(`${cwd()}/`);
   const envSource = await Envctl.findEnvLocation(
     workspaceLocation,
     contextName,
   );
-  const envTemplate = new URL(".env.template", workspaceLocation);
+  const envTemplate = await choiceFileIfExists([
+    new URL(".envs/template", workspaceLocation),
+    new URL(".env.template", workspaceLocation),
+    new URL(".env.sample", workspaceLocation),
+  ]);
   const envDestiny = new URL(".env", workspaceLocation);
 
   if (!envSource) throw new Error(`Missing context ${contextName}.`);
