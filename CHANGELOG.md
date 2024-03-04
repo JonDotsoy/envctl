@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/JonDotsoy/envctl/compare/v1.2.1...v1.3.0) (2024-03-04)
+
+
+### Features
+
+* **license:** add MIT License and update package.json ([6093389](https://github.com/JonDotsoy/envctl/commit/6093389ed2f30e79064e59d61e0e825d3ca6e345))
+
 ## [1.2.1](https://github.com/JonDotsoy/envctl/compare/v1.2.0...v1.2.1) (2024-03-04)
 
 
