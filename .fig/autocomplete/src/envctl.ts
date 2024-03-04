@@ -1,4 +1,12 @@
-import { filepaths } from "@fig/autocomplete-generators";
+const envs: Fig.Generator = {
+  script: ["envctl", "list", "--json"],
+  postProcess: (output) => {
+    return JSON.parse(output).map((name: string) => {
+      const indexSlash = name.lastIndexOf("/") + 1;
+      return { name: name.substring(indexSlash) };
+    });
+  },
+};
 
 const completionSpec: Fig.Spec = {
   name: "envctl",
@@ -9,21 +17,16 @@ const completionSpec: Fig.Spec = {
       description: "Choice a environment context",
       args: {
         description: "Context",
-        generators: filepaths({
-          filterFolders: true,
-          matches: /\.env\.(?<name>.+)/,
-        }),
+        generators: envs,
       },
     },
     {
       name: "list",
       description: "List all context available",
-      subcommands: [],
     },
     {
       name: "init",
-      description: "Initialize the env files.",
-      subcommands: [],
+      description: "Initialize the env files",
     },
   ],
   options: [
