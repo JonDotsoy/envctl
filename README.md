@@ -55,3 +55,20 @@ The `envctl use` find the template on the next alternatives:
 - `.env.example`
 
 If a template does not exist, it will try to use the `.env` file as a template. This strategy is so useful to update the template only on local.
+
+## Sources
+
+A source is used to fill a template and make the final `.env` file.
+
+Those are valid sources:
+
+- `.env.foo`
+- `.foo.env`
+- `.envs/foo`
+- `.envs/.foo`
+- `.envs/foo.env`
+- `.envs/.foo.env`
+
+Use that you prefer.
+
+> Preferably, add `.envs/` on your `.gitignore` file to prevent pushing the secrets.
