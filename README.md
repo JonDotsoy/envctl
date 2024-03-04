@@ -2,6 +2,20 @@
 
 To manager many env files.
 
+**Example:**
+
+```shell
+# Initialize some environments
+$ cat `FOO=biz` > .envs/staging
+$ cat `FOO=taz` > .envs/rc
+
+# Initialize the template file (Optional)
+$ cat 'PORT=300\nFOO=' > .envs/template
+
+# Now choice one
+$ envctl use staging
+```
+
 ## Install with brew
 
 ```shell
