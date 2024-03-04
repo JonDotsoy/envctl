@@ -107,3 +107,28 @@ test("should call to envctl list and display json output", async () => {
   await new Promise((r) => setTimeout(r, 100));
   expect(messages.toMessages()).toMatchSnapshot();
 });
+
+test("should call to envctl version to display version number", async () => {
+  const workspace = await useWorkspace();
+  using _chdir = useChdir(workspace.workspaceLocation);
+  using messages = useGlobalMessages();
+
+  await catchToMessages(() => cli(["version"]));
+
+  await new Promise((r) => setTimeout(r, 100));
+  expect(JSON.stringify(messages.toMessages())).toMatch(
+    /Version v\d+\.\d+\.\d+/,
+  );
+});
+
+test("should call to envctl version to display version number (json output)", async () => {
+  const workspace = await useWorkspace();
+  using _chdir = useChdir(workspace.workspaceLocation);
+  using messages = useGlobalMessages();
+
+  await catchToMessages(() => cli(["version", "--json"]));
+
+  await new Promise((r) => setTimeout(r, 100));
+  expect(JSON.stringify(messages.toMessages())).toMatch(`\\"version\\":`);
+  expect(JSON.stringify(messages.toMessages())).toMatch(/\d+\.\d+\.\d+/);
+});
