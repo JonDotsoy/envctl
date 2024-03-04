@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.0](https://github.com/JonDotsoy/envctl/compare/v1.0.1...v1.1.0) (2024-03-04)
+
+
+### Features
+
+* enhance .env file selection for build process ([f40cd35](https://github.com/JonDotsoy/envctl/commit/f40cd351657f68bab18c1a8a51f623677d7f180a))
+* **envctl:** support .env.sample files in addition to .env.template ([3341a31](https://github.com/JonDotsoy/envctl/commit/3341a31e23b479af65712ccee5031e7acf62b49f))
+* **fig-autocomplete:** update context listing in envctl to use dynamic envs generator ([70e1eb7](https://github.com/JonDotsoy/envctl/commit/70e1eb764e5d9b29259a2a471f86ce8eaa63f42d))
+
+
+### Bug Fixes
+
+* **envctl:** include .env.example in template search patterns ([2359f91](https://github.com/JonDotsoy/envctl/commit/2359f91a28b4b703b760d73e8fd2aed34a02dd8e))
+
 ## [1.0.1](https://github.com/JonDotsoy/envctl/compare/v1.0.0...v1.0.1) (2024-03-04)
 
 
