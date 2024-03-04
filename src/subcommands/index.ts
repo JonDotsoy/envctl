@@ -38,9 +38,10 @@ export const list = async (args: string[]) => {
   );
 
   if (envs.length === 0) {
-    throw new Error(
-      `No contexts found. You can create one by making a ${chalk.green(".env.<ctx>")} file and adding desired variables.`,
-    );
+    controller.send({
+      type: "ERROR",
+      value: `No contexts found. You can create one by making a ${chalk.green(".env.<ctx>")} file and adding desired variables.`,
+    });
   }
 
   if (options.formatJson) return controller.send(JSON.stringify(envs, null, 2));
