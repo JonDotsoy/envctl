@@ -121,6 +121,7 @@ export const build = async (args: string[]) => {
     new URL(".envs/template", workspaceLocation),
     new URL(".env.template", workspaceLocation),
     new URL(".env.sample", workspaceLocation),
+    new URL(".env.example", workspaceLocation),
   ]);
   const envDestiny = new URL(".env", workspaceLocation);
 
