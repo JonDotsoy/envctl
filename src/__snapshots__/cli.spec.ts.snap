@@ -8,23 +8,40 @@ flag:
     -h
 
 command:
-    use    Build the env file. Example: envctl use <context>
-    list   List environment available
-    init   Init the template file
+    use       Build the env file. Example: envctl use <context>
+    list      List environment available
+    version   Show version enabled
+    init      Init the template file
 
 "
 `;
 
-exports[`run use local env (using full path) 1`] = `"Created env by .env.local file"`;
+exports[`run use local env (using full path) 1`] = `
+"Created env by .env.local file
+"
+`;
+
 exports[`run use local env (using full path) 2`] = `"FOO=biz"`;
 
-exports[`run use local env (using partial path) 1`] = `"Created env by .env.local file"`;
+exports[`run use local env (using partial path) 1`] = `
+"Created env by .env.local file
+"
+`;
+
 exports[`run use local env (using partial path) 2`] = `"FOO=biz"`;
 
-exports[`run use local env (using subpath location) 1`] = `"Created env by .envs/local.env file"`;
+exports[`run use local env (using subpath location) 1`] = `
+"Created env by .envs/local.env file
+"
+`;
+
 exports[`run use local env (using subpath location) 2`] = `"FOO=biz"`;
 
-exports[`run use local env (using subpath relative location) 1`] = `"Created env by .envs/local.env file"`;
+exports[`run use local env (using subpath relative location) 1`] = `
+"Created env by .envs/local.env file
+"
+`;
+
 exports[`run use local env (using subpath relative location) 2`] = `"FOO=biz"`;
 
 exports[`should call to envctl list and display all envs files found 1`] = `
@@ -41,7 +58,10 @@ exports[`should call to envctl list and display json output 1`] = `
 [
   {
     "type": "ERROR",
-    "value": "No contexts found. You can create one by making a .env.<ctx> file and adding desired variables.",
+    "value": 
+"No contexts found. You can create one by making a .env.<ctx> file and adding desired variables.
+"
+,
   },
   {
     "type": "LOG",
