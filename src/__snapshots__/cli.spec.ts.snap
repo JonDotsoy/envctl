@@ -11,6 +11,7 @@ command:
     use    Build the env file. Example: envctl use <context>
     list   List environment available
     init   Init the template file
+
 "
 `;
 
