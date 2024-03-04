@@ -38,3 +38,20 @@ brew install jondotsoy/core/envctl
 ```
 
 3. Now run the next command `envctl use <staging|rc1|rc2>` to write the final `.env` file and enjoy.
+
+## Template
+
+The template is used to make a `.env` file in the workspace directory. This file is filed with the `envctl use` command.
+
+> For security, the `envctl use` command never adds variables to the final `.env` file.
+
+**Templates locations:**
+
+The `envctl use` find the template on the next alternatives:
+
+- `.envs/template`
+- `.env.template`
+- `.env.sample`
+- `.env.example`
+
+If a template does not exist, it will try to use the `.env` file as a template. This strategy is so useful to update the template only on local.
