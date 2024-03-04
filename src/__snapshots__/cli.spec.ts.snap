@@ -36,3 +36,16 @@ exports[`should call to envctl list and display all envs files found 1`] = `
 - eee (.envs/eee.env)
 "
 `;
+
+exports[`should call to envctl list and display json output 1`] = `
+[
+  {
+    "type": "ERROR",
+    "value": "No contexts found. You can create one by making a .env.<ctx> file and adding desired variables.",
+  },
+  {
+    "type": "LOG",
+    "value": "[]",
+  },
+]
+`;

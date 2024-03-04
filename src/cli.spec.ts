@@ -93,3 +93,17 @@ test("should call to envctl list and display all envs files found", async () => 
   await new Promise((r) => setTimeout(r, 100));
   expect(messages.toText()).toMatchSnapshot();
 });
+
+test.only("should call to envctl list and display json output", async () => {
+  const workspace = await useWorkspace();
+  using _chdir = useChdir(workspace.workspaceLocation);
+  using messages = useGlobalMessages();
+
+  await workspace.writeFile(".env.template", new TextEncoder().encode(``));
+  await workspace.writeFile(".envs/template", new TextEncoder().encode(``));
+
+  await catchToMessages(() => cli(["list", "-j"]));
+
+  await new Promise((r) => setTimeout(r, 100));
+  expect(messages.toMessages()).toMatchSnapshot();
+});
