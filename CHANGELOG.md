@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/JonDotsoy/envctl/compare/v1.2.0...v1.2.1) (2024-03-04)
+
+
+### Bug Fixes
+
+* **subcommands:** Ensure consistent newline endings in CLI messages ([28a38d9](https://github.com/JonDotsoy/envctl/commit/28a38d97b560e02c5ac01e0f83bfb60f217e0a10))
+
 ## [1.2.0](https://github.com/JonDotsoy/envctl/compare/v1.1.0...v1.2.0) (2024-03-04)
 
 
