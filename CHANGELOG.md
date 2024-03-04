@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.1](https://github.com/JonDotsoy/envctl/compare/v1.0.0...v1.0.1) (2024-03-04)
+
+
+### Features
+
+* **cli:** update snapshot for CLI help message ([aca8ef7](https://github.com/JonDotsoy/envctl/commit/aca8ef7908062d9a81d254f45e46de3720a24e27))
+* **subcommands:** switch from throwing error to controller messaging in list ([77a15c9](https://github.com/JonDotsoy/envctl/commit/77a15c952939de8a2619ec776f21074a6ed76af6))
+
+
+### Miscellaneous Chores
+
+* release 1.0.1 ([a765936](https://github.com/JonDotsoy/envctl/commit/a765936a4376fc4ab84fd084cd246a5d7bfd0cb0))
+
 ## 1.0.0 (2024-03-03)
 
 
