@@ -130,3 +130,25 @@ export const useChdir = (directory: URL) => {
     },
   };
 };
+
+export const runSample = async (location: URL) => {
+  if (!location.pathname.endsWith(".ts"))
+    throw new Error(`Expected a typescript file. with .ts extension.`);
+  if (location.protocol !== "file:") throw new Error(`Expect a file url`);
+
+  if (!(await fs.exists(location))) {
+    await fs.mkdir(new URL("./", location), { recursive: true });
+    await fs.writeFile(location, `# Your code here`);
+  }
+
+  const childProcess = Bun.spawn({
+    cmd: [process.argv0, `${location.pathname}`],
+    cwd: new URL("./", location).pathname,
+    env: { NODE_ENV: "development", TZ: "America/Santiago" },
+    stderr: "inherit",
+    stdout: "inherit",
+  });
+
+  const exitCode = await childProcess.exited;
+  console.log(`Exit Code: ${exitCode}`);
+};

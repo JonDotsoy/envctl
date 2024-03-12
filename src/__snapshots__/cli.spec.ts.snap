@@ -1,5 +1,22 @@
 // Bun Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`should create a .env with espacial characters values: messages 1`] = `
+[
+  {
+    "type": "INFO",
+    "value": 
+"Created env by .envs/staging file
+"
+,
+  },
+]
+`;
+
+exports[`should create a .env with espacial characters values: .env payload 1`] = `
+"FOO="biz taz"
+BIZ="aaa\nbbb""
+`;
+
 exports[`run cli 1`] = `
 "Usage: envctl use <ctx>
 
@@ -68,21 +85,4 @@ exports[`should call to envctl list and display json output 1`] = `
     "value": "[]",
   },
 ]
-`;
-
-exports[`should create a .env with espacial characters values: messages 1`] = `
-[
-  {
-    "type": "INFO",
-    "value": 
-"Created env by .envs/staging file
-"
-,
-  },
-]
-`;
-
-exports[`should create a .env with espacial characters values: .env payload 1`] = `
-"FOO="biz taz"
-"
 `;

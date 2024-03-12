@@ -1,8 +1,9 @@
 import { test, expect } from "bun:test";
-import { useChdir, useWorkspace } from "./utils/common_tests";
+import { useChdir, runSample, useWorkspace } from "./utils/common_tests";
 import { cli } from "./cli";
 import { catchToMessages } from "./utils/streaming";
 import { useGlobalMessages } from "./utils/tests_tools/use-messages-writable-stream";
+import fs from "fs/promises";
 
 test("run cli", async () => {
   const { workspaceLocation, writeFile } = await useWorkspace();
@@ -155,8 +156,14 @@ test("should create a .env with espacial characters values", async () => {
   using _chdir = useChdir(workspaceLocation);
   using messages = useGlobalMessages();
 
-  await writeFile(".envs/staging", new TextEncoder().encode(`FOO="biz taz"\n`));
-  await writeFile(".env.example", new TextEncoder().encode(`FOO= # comment\n`));
+  await writeFile(
+    ".envs/staging",
+    new TextEncoder().encode(`FOO="biz taz"\nBIZ="aaa\nbbb"`),
+  );
+  await writeFile(
+    ".env.example",
+    new TextEncoder().encode(`FOO= # comment\nBIZ=`),
+  );
 
   await catchToMessages(() => cli(["use", "staging"]));
   await new Promise((r) => setTimeout(r, 100));
@@ -165,4 +172,10 @@ test("should create a .env with espacial characters values", async () => {
   expect(new TextDecoder().decode(await readFile(".env"))).toMatchSnapshot(
     ".env payload",
   );
+
+  await fs.copyFile(
+    toLocation(".env"),
+    new URL("./samples/.env", import.meta.url),
+  );
+  await runSample(new URL("./samples/sample1.ts", import.meta.url));
 });
