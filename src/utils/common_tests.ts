@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import process from "node:process";
+import { useWorkspace as createUseWorkspace } from "use-workspace";
 
 namespace WorkspacesName {
   const toCharCode = (value: string) => value.charCodeAt(0);
@@ -69,10 +70,7 @@ const getWorkspaceLocation = (workspacesName: string) =>
   new URL(`${WorkspacesName.serialize(workspacesName)}/`, workspacesLocation);
 
 export const useWorkspace = async (name: string = "default") => {
-  const workspaceLocation = getWorkspaceLocation(name);
-
-  await fs.rm(workspaceLocation, { recursive: true });
-  await fs.mkdir(workspaceLocation, { recursive: true });
+  const { location: workspaceLocation } = await createUseWorkspace(name);
 
   const toLocation = (relativeName: string) =>
     new URL(relativeName, workspaceLocation);
