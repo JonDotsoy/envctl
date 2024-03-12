@@ -60,7 +60,8 @@ export class Envctl {
       new TextDecoder()
         .decode(templateSource)
         .replace(/^((?:\w|_)*)=(.*)/gm, (_: string, varName: string) => {
-          return `${varName}=${envOriginParsed[varName] ?? ""}`;
+          const value = JSON.stringify(envOriginParsed[varName] ?? "");
+          return `${varName}=${value}`;
         }),
     );
 

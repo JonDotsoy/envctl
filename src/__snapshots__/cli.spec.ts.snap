@@ -21,28 +21,28 @@ exports[`run use local env (using full path) 1`] = `
 "
 `;
 
-exports[`run use local env (using full path) 2`] = `"FOO=biz"`;
+exports[`run use local env (using full path) 2`] = `"FOO="biz""`;
 
 exports[`run use local env (using partial path) 1`] = `
 "Created env by .env.local file
 "
 `;
 
-exports[`run use local env (using partial path) 2`] = `"FOO=biz"`;
+exports[`run use local env (using partial path) 2`] = `"FOO="biz""`;
 
 exports[`run use local env (using subpath location) 1`] = `
 "Created env by .envs/local.env file
 "
 `;
 
-exports[`run use local env (using subpath location) 2`] = `"FOO=biz"`;
+exports[`run use local env (using subpath location) 2`] = `"FOO="biz""`;
 
 exports[`run use local env (using subpath relative location) 1`] = `
 "Created env by .envs/local.env file
 "
 `;
 
-exports[`run use local env (using subpath relative location) 2`] = `"FOO=biz"`;
+exports[`run use local env (using subpath relative location) 2`] = `"FOO="biz""`;
 
 exports[`should call to envctl list and display all envs files found 1`] = `
 "- aaa (.env.aaa)
@@ -68,4 +68,21 @@ exports[`should call to envctl list and display json output 1`] = `
     "value": "[]",
   },
 ]
+`;
+
+exports[`should create a .env with espacial characters values: messages 1`] = `
+[
+  {
+    "type": "INFO",
+    "value": 
+"Created env by .envs/staging file
+"
+,
+  },
+]
+`;
+
+exports[`should create a .env with espacial characters values: .env payload 1`] = `
+"FOO="biz taz"
+"
 `;

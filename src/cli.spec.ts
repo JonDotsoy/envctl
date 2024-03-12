@@ -148,3 +148,21 @@ test("should call to envctl use without template", async () => {
   // expect(JSON.stringify(messages.toMessages())).toMatch(`\\"version\\":`);
   // expect(JSON.stringify(messages.toMessages())).toMatch(/\d+\.\d+\.\d+/);
 });
+
+test("should create a .env with espacial characters values", async () => {
+  const { workspaceLocation, toLocation, writeFile, readFile } =
+    await useWorkspace();
+  using _chdir = useChdir(workspaceLocation);
+  using messages = useGlobalMessages();
+
+  await writeFile(".envs/staging", new TextEncoder().encode(`FOO="biz taz"\n`));
+  await writeFile(".env.example", new TextEncoder().encode(`FOO= # comment\n`));
+
+  await catchToMessages(() => cli(["use", "staging"]));
+  await new Promise((r) => setTimeout(r, 100));
+
+  expect(messages.toMessages()).toMatchSnapshot("messages");
+  expect(new TextDecoder().decode(await readFile(".env"))).toMatchSnapshot(
+    ".env payload",
+  );
+});
