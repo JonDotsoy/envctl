@@ -133,7 +133,7 @@ test("should call to envctl version to display version number (json output)", as
   expect(JSON.stringify(messages.toMessages())).toMatch(/\d+\.\d+\.\d+/);
 });
 
-test.only("should call to envctl use without template", async () => {
+test("should call to envctl use without template", async () => {
   const workspace = await useWorkspace();
   using _chdir = useChdir(workspace.workspaceLocation);
   using messages = useGlobalMessages();

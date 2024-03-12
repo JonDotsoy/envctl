@@ -70,7 +70,9 @@ const getWorkspaceLocation = (workspacesName: string) =>
   new URL(`${WorkspacesName.serialize(workspacesName)}/`, workspacesLocation);
 
 export const useWorkspace = async (name: string = "default") => {
-  const { location: workspaceLocation } = await createUseWorkspace(name);
+  const { location: workspaceLocation } = await createUseWorkspace(name, {
+    cleanBefore: true,
+  });
 
   const toLocation = (relativeName: string) =>
     new URL(relativeName, workspaceLocation);
