@@ -132,3 +132,19 @@ test("should call to envctl version to display version number (json output)", as
   expect(JSON.stringify(messages.toMessages())).toMatch(`\\"version\\":`);
   expect(JSON.stringify(messages.toMessages())).toMatch(/\d+\.\d+\.\d+/);
 });
+
+test.only("should call to envctl use without template", async () => {
+  const workspace = await useWorkspace();
+  using _chdir = useChdir(workspace.workspaceLocation);
+  using messages = useGlobalMessages();
+
+  await workspace.writeFile(".envs/staging", new TextEncoder().encode("foo"));
+
+  await catchToMessages(() => cli(["use", "staging"]));
+
+  await new Promise((r) => setTimeout(r, 100));
+  console.log("🚀 ~ test.only ~ messages.toMessages():", messages.toMessages());
+
+  // expect(JSON.stringify(messages.toMessages())).toMatch(`\\"version\\":`);
+  // expect(JSON.stringify(messages.toMessages())).toMatch(/\d+\.\d+\.\d+/);
+});
