@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.0](https://github.com/JonDotsoy/envctl/compare/v1.2.1...v1.3.0) (2024-03-12)
+
+
+### Features
+
+* add `use-workspace` package to devDependencies ([1e1293e](https://github.com/JonDotsoy/envctl/commit/1e1293e35870069283b46037b88ace47dd239c10))
+* Enhance .env creation with support for special characters ([067889f](https://github.com/JonDotsoy/envctl/commit/067889febb5c53177bcbdb2a6e21d4a2c2064d11))
+* enhance handling of special characters in .env files ([dfb6e24](https://github.com/JonDotsoy/envctl/commit/dfb6e242e10d6bafa3ef4468bc9d012a5e8fa286))
+* **utils:** integrate use-workspace for workspace management ([86a4870](https://github.com/JonDotsoy/envctl/commit/86a4870b149f84f57f17cfb4b33e6be14fb89aa3))
+
 ## [1.2.1](https://github.com/JonDotsoy/envctl/compare/v1.2.0...v1.2.1) (2024-03-04)
 
 
